@@ -3,3 +3,9 @@ DoubleU-Net starts with a VGG19 as encoder sub-network, which is followed by dec
 
 ## Architecture
 <img src="img/DoubleU-Net.png">
+
+## Results
+The model is trained on CVC-ClinicDB and tested on the ETIS-Larib polyps dataset. <br/>
+<img src="img/100.png">
+<img src="img/5.png">
+<img src="img/6.png">
