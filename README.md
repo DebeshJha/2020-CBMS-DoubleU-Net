@@ -49,3 +49,7 @@ Please cite our paper if you find the work useful:
   year={2020},
   pages={558-564}}
 </pre>
+
+## Contact
+please contact debesh@simula.no for any further questions. 
+
