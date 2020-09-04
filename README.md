@@ -1,6 +1,10 @@
 # DoubleU-Net
 DoubleU-Net starts with a VGG19 as encoder sub-network, which is followed by decoder sub-network. In the network, the input image is fed to the modified UNet(UNet1), which generates predicted masks (i.e., output1). We then multiply the input image and the produced masks (i.e., output1), which acts as an input for the second modified U-Net(UNet2) that produces another the generated mask (output2). Finally, we concatenate both the masks (output1 and output2) to get the final predicted mask (output). <br/>
 
+Please find the paper here: [DoubleU-Net: A Deep Convolutional Neural
+Network for Medical Image Segmentation](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9183321), Arxiv: [DoubleU-Net: A Deep Convolutional Neural
+Network for Medical Image Segmentation](https://arxiv.org/pdf/2006.04868.pdf)
+
 ## Architecture
 <img src="img/DoubleU-Net.png">
 
@@ -34,3 +38,14 @@ The model is trained on CVC-ClinicDB and tested on the ETIS-Larib polyps dataset
 <img src="img/100.png">
 <img src="img/5.png">
 <img src="img/6.png">
+
+## Citation
+Please cite our paper if you find the work useful: 
+<pre>
+  @INPROCEEDINGS{9183321,
+  author={D. {Jha} and M. A. {Riegler} and D. {Johansen} and P. {Halvorsen} and H. D. {Johansen}},
+  booktitle={2020 IEEE 33rd International Symposium on Computer-Based Medical Systems (CBMS)}, 
+  title={DoubleU-Net: A Deep Convolutional Neural Network for Medical Image Segmentation}, 
+  year={2020},
+  pages={558-564}}
+</pre>
