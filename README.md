@@ -35,9 +35,16 @@ The following datasets are used in this experiment:
 
 ## Results
 The model is trained on CVC-ClinicDB and tested on the ETIS-Larib polyps dataset. <br/>
-<img src="img/100.png">
-<img src="img/5.png">
-<img src="img/6.png">
+<img src="img/gastro1.png">
+The model is trained and tested on CVC-ClinicDB <br/>
+<img src="img/gastro.png">
+
+The model is trained and tested on Lesion Boundary segmentation
+challenge <br/>
+
+<img src="img/skin.png">
+The model is trained and tested 2018 Data Science Bowl Challenge <br/>
+<img src="img/nuclie.png">
 
 ## Citation
 Please cite our paper if you find the work useful: 
