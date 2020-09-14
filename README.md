@@ -31,6 +31,9 @@ The following datasets are used in this experiment:
   <tr> <td>2018 Data Science Bowl challenge</td><td>Dice loss</td> <td>Nadam</td> <td>1e-4</td> </tr>
  </table>
  
+## Weight file:
+The weight file for the lesion boundary segmentation dataset can be found here:
+[https://drive.google.com/file/d/1jjMYoMkbb866-1qh3bD546TVp-ZjKs9w/view?usp=sharing](https://drive.google.com/file/d/1jjMYoMkbb866-1qh3bD546TVp-ZjKs9w/view?usp=sharing)
 
 
 ## Results
