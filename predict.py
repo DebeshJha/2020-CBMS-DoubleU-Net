@@ -49,13 +49,14 @@ def evaluate_normal(model, x_data, y_data):
 
         y_pred1 = parse(model.predict(x)[0][..., -2])
         y_pred2 = parse(model.predict(x)[0][..., -1])
-        wall = np.ones((h, 10, 3)) * 255.0
-
+        
+        line = np.ones((h, 10, 3)) * 255.0
+        
         all_images = [
-            x[0] * 255.0, wall, 
-            mask_to_3d(y) * 255.0, wall, 
-            (mask_to_3d(y_pred1)> THRESHOLD) * 255.0, wall,
-            (mask_to_3d(y_pred2)> THRESHOLD) * 255.0
+            x[0] * 255.0, line,
+            mask_to_3d(y) * 255.0, line,
+            mask_to_3d(y_pred1) * 255.0, line,
+            mask_to_3d(y_pred2) * 255.0
         ]
         mask = np.concatenate(all_images, axis=1)
 
@@ -76,9 +77,9 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
     create_dir("results/")
 
-    batch_size = 16
+    batch_size = 8
 
-    test_path = "new_data/test"
+    test_path = "../1/new_data/test/"
     test_x = sorted(glob(os.path.join(test_path, "image", "*.jpg")))
     test_y = sorted(glob(os.path.join(test_path, "mask", "*.jpg")))
     test_dataset = tf_dataset(test_x, test_y, batch=batch_size)
@@ -90,4 +91,3 @@ if __name__ == "__main__":
     model = load_model_weight("files/model.h5")
     model.evaluate(test_dataset, steps=test_steps)
     evaluate_normal(model, test_x, test_y)
-

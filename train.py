@@ -36,8 +36,8 @@ def parse_data(x, y):
         return x, y
 
     x, y = tf.numpy_function(_parse, [x, y], [tf.float32, tf.float32])
-    x.set_shape([288, 384, 3])
-    y.set_shape([288, 384, 2])
+    x.set_shape([384, 512, 3])
+    y.set_shape([384, 512, 2])
     return x, y
 
 def tf_dataset(x, y, batch=8):
@@ -53,8 +53,8 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
     create_dir("files")
 
-    train_path = "new_data/train/"
-    valid_path = "new_data/valid/"
+    train_path = "../1/new_data/train/"
+    valid_path = "../1/new_data/valid/"
 
     ## Training
     train_x = sorted(glob(os.path.join(train_path, "image", "*.jpg")))
@@ -62,8 +62,6 @@ if __name__ == "__main__":
 
     ## Shuffling
     train_x, train_y = shuffling(train_x, train_y)
-    train_x = train_x
-    train_y = train_y
 
     ## Validation
     valid_x = sorted(glob(os.path.join(valid_path, "image", "*.jpg")))
@@ -72,11 +70,8 @@ if __name__ == "__main__":
     model_path = "files/model.h5"
     batch_size = 16
     epochs = 300
-    lr = 1e-5
-    shape = (288, 384, 3)
-
-	train_dataset = tf_dataset(train_x, train_y, batch=batch_size)
-    valid_dataset = tf_dataset(valid_x, valid_y, batch=batch_size)
+    lr = 1e-4
+    shape = (384, 512, 3)
 
     model = build_model(shape)
     metrics = [
@@ -85,7 +80,11 @@ if __name__ == "__main__":
         Recall(),
         Precision()
     ]
-    model.compile(loss="binary_crossentropy", optimizer=Nadam(lr), metrics=metrics)
+    
+    train_dataset = tf_dataset(train_x, train_y, batch=batch_size)
+    valid_dataset = tf_dataset(valid_x, valid_y, batch=batch_size)
+    
+    model.compile(loss=dice_loss, optimizer=Adam(lr), metrics=metrics)
 
     callbacks = [
         ModelCheckpoint(model_path),
@@ -111,4 +110,3 @@ if __name__ == "__main__":
             validation_steps=valid_steps,
             callbacks=callbacks,
             shuffle=False)
-

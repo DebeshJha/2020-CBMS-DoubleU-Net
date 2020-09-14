@@ -40,12 +40,8 @@ from albumentations import (
 
 def augment_data(images, masks, save_path, augment=True):
     """ Performing data augmentation. """
-    if images[0].split("/")[1] == "CVC-612":
-        size = (384, 288)
-        crop_size = (334, 238)
-    else:
-        crop_size = (256, 256)
-        size = (256, 256)
+    crop_size = (192-32, 256-32)
+    size = (256, 192)
 
     for image, mask in tqdm(zip(images, masks), total=len(images)):
         image_name = image.split("/")[-1].split(".")[0]
@@ -61,7 +57,7 @@ def augment_data(images, masks, save_path, augment=True):
 
         if augment == True:
             ## Center Crop
-            aug = CenterCrop(p=1, height=crop_size[1], width=crop_size[0])
+            aug = CenterCrop(p=1, height=crop_size[0], width=crop_size[1])
             augmented = aug(image=x, mask=y)
             x1 = augmented['image']
             y1 = augmented['mask']
@@ -69,8 +65,8 @@ def augment_data(images, masks, save_path, augment=True):
             ## Crop
             x_min = 0
             y_min = 0
-            x_max = x_min + crop_size[0]
-            y_max = y_min + crop_size[1]
+            x_max = x_min + size[0]
+            y_max = y_min + size[1]
 
             aug = Crop(p=1, x_min=x_min, x_max=x_max, y_min=y_min, y_max=y_max)
             augmented = aug(image=x, mask=y)
@@ -136,7 +132,7 @@ def augment_data(images, masks, save_path, augment=True):
             y12 = augmented['mask']
 
             ## Grayscale Center Crop
-            aug = CenterCrop(p=1, height=crop_size[1], width=crop_size[0])
+            aug = CenterCrop(p=1, height=crop_size[0], width=crop_size[1])
             augmented = aug(image=x10, mask=y10)
             x13 = augmented['image']
             y13 = augmented['mask']
@@ -237,28 +233,40 @@ def load_data(path, split=0.1):
     """ Load all the data and then split them into train and valid dataset. """
     img_path = glob(os.path.join(path, "images/*"))
     msk_path = glob(os.path.join(path, "masks/*"))
-    print(len(img_path), len(msk_path))
-    
+
     img_path.sort()
     msk_path.sort()
 
-    total = len(img_path)
-    train_size = int(0.8 * total)
-    valid_size = int(0.1 * total)
-    test_size = int(0.1 * total)
+    len_ids = len(img_path)
+    train_size = int((80/100)*len_ids)
+    valid_size = int((10/100)*len_ids)		## Here 10 is the percent of images used for validation
+    test_size = int((10/100)*len_ids)		## Here 10 is the percent of images used for testing
 
     train_x, test_x = train_test_split(img_path, test_size=test_size, random_state=42)
     train_y, test_y = train_test_split(msk_path, test_size=test_size, random_state=42)
 
-    train_x, valid_x = train_test_split(train_x, test_size=valid_size, random_state=42)
-    train_y, valid_y = train_test_split(train_y, test_size=valid_size, random_state=42)
+    train_x, valid_x = train_test_split(train_x, test_size=test_size, random_state=42)
+    train_y, valid_y = train_test_split(train_y, test_size=test_size, random_state=42)
+
+    return (train_x, train_y), (valid_x, valid_y), (test_x, test_y)
+
+## Skin lesion segmentation
+def get_skin_lesion_data(path, split=0.1):
+    train_x = glob(os.path.join(path, "trainx/*"))
+    train_y = glob(os.path.join(path, "trainy/*"))
+
+    valid_x = glob(os.path.join(path, "validationx/*"))
+    valid_y = glob(os.path.join(path, "validationy/*"))
+
+    test_x = glob(os.path.join(path, "testx/*"))
+    test_y = glob(os.path.join(path, "testy/*"))
 
     return (train_x, train_y), (valid_x, valid_y), (test_x, test_y)
 
 def main():
     np.random.seed(42)
-    path = "data/CVC-612/"
-    (train_x, train_y), (valid_x, valid_y), (test_x, test_y) = load_data(path, split=0.1)
+    path = "data/skin-lesion-segmentation/"
+    (train_x, train_y), (valid_x, valid_y), (test_x, test_y) = get_skin_lesion_data(path, split=0.1)
 
     create_dir("new_data/train/image/")
     create_dir("new_data/train/mask/")
@@ -273,4 +281,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

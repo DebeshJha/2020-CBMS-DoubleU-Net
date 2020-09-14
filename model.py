@@ -56,6 +56,19 @@ def decoder1(inputs, skip_connections):
 
     return x
 
+# def encoder2(inputs):
+#     skip_connections = []
+#
+#     output = DenseNet121(include_top=False, weights='imagenet')(inputs)
+#     model = tf.keras.models.Model(inputs, output)
+#
+#     names = ["input_2", "conv1/relu", "pool2_conv", "pool3_conv"]
+#     for name in names:
+#         skip_connections.append(model.get_layer(name).output)
+#     output = model.get_layer("pool4_conv").output
+#
+#     return output, skip_connections
+
 def encoder2(inputs):
     num_filters = [32, 64, 128, 256]
     skip_connections = []
@@ -85,16 +98,56 @@ def output_block(inputs):
     x = Activation('sigmoid')(x)
     return x
 
+def Upsample(tensor, size):
+    """Bilinear upsampling"""
+    def _upsample(x, size):
+        return tf.image.resize(images=x, size=size)
+    return Lambda(lambda x: _upsample(x, size), output_shape=size)(tensor)
+
+def ASPP(x, filter):
+    shape = x.shape
+
+    y1 = AveragePooling2D(pool_size=(shape[1], shape[2]))(x)
+    y1 = Conv2D(filter, 1, padding="same")(y1)
+    y1 = BatchNormalization()(y1)
+    y1 = Activation("relu")(y1)
+    y1 = UpSampling2D((shape[1], shape[2]), interpolation='bilinear')(y1)
+
+    y2 = Conv2D(filter, 1, dilation_rate=1, padding="same", use_bias=False)(x)
+    y2 = BatchNormalization()(y2)
+    y2 = Activation("relu")(y2)
+
+    y3 = Conv2D(filter, 3, dilation_rate=6, padding="same", use_bias=False)(x)
+    y3 = BatchNormalization()(y3)
+    y3 = Activation("relu")(y3)
+
+    y4 = Conv2D(filter, 3, dilation_rate=12, padding="same", use_bias=False)(x)
+    y4 = BatchNormalization()(y4)
+    y4 = Activation("relu")(y4)
+
+    y5 = Conv2D(filter, 3, dilation_rate=18, padding="same", use_bias=False)(x)
+    y5 = BatchNormalization()(y5)
+    y5 = Activation("relu")(y5)
+
+    y = Concatenate()([y1, y2, y3, y4, y5])
+
+    y = Conv2D(filter, 1, dilation_rate=1, padding="same", use_bias=False)(y)
+    y = BatchNormalization()(y)
+    y = Activation("relu")(y)
+
+    return y
+
 def build_model(shape):
     inputs = Input(shape)
     x, skip_1 = encoder1(inputs)
+    x = ASPP(x, 64)
     x = decoder1(x, skip_1)
     outputs1 = output_block(x)
 
     x = inputs * outputs1
-    x = Concatenate(axis=-1)([inputs, x])
 
     x, skip_2 = encoder2(x)
+    x = ASPP(x, 64)
     x = decoder2(x, skip_1, skip_2)
     outputs2 = output_block(x)
     outputs = Concatenate()([outputs1, outputs2])
@@ -103,6 +156,5 @@ def build_model(shape):
     return model
 
 if __name__ == "__main__":
-    model = build_model((288, 384, 3))
+    model = build_model((192, 256, 3))
     model.summary()
-
