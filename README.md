@@ -35,6 +35,11 @@ The following datasets are used in this experiment:
 The weight file for the lesion boundary segmentation dataset can be found here:
 [https://drive.google.com/file/d/1jjMYoMkbb866-1qh3bD546TVp-ZjKs9w/view?usp=sharing](https://drive.google.com/file/d/1jjMYoMkbb866-1qh3bD546TVp-ZjKs9w/view?usp=sharing)
 
+The weight file for the CVC-612 and "2015 MICCAI sub-challenge on automatic polyp detection dataset"  can be found here:
+[https://drive.google.com/file/d/14ahqFsLu-XlW8IRYmYptVocRGwsGm6Ea/view?usp=sharing](https://drive.google.com/file/d/14ahqFsLu-XlW8IRYmYptVocRGwsGm6Ea/view?usp=sharing)
+
+The weight file for "the 2018 Data Science Bowl Challenge" and can be found here:
+[https://drive.google.com/file/d/1J8yjNa_Oeuf26s2qRq6H0GEtp272oXY5/view?usp=sharing](https://drive.google.com/file/d/1J8yjNa_Oeuf26s2qRq6H0GEtp272oXY5/view?usp=sharing)
 
 ## Results
 The model is trained on CVC-ClinicDB and tested on the ETIS-Larib polyp dataset. <br/>
