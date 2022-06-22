@@ -12,9 +12,9 @@ Network for Medical Image Segmentation](https://arxiv.org/pdf/2006.04868.pdf)
 The following datasets are used in this experiment:
 <ol>
   <li>MICCAI 2015 Segmentation challenge(CVC-ClinicDB for training and ETIS-Larib for Testing)</li>
-  <li>CVC-ClinicDB</li>
-  <li>Lesion Boundary segmentation challenge/li>
-  <li> 2018 Data Science Bowl challenge</li>
+  <li>[CVC-ClinicDB] (https://www.kaggle.com/datasets/balraj98/cvcclinicdb)</li>
+  <li>[Lesion Boundary segmentation challenge] (https://challenge.isic-archive.com/data/)/li>
+  <li> [2018 Data Science Bowl challenge] (https://bbbc.broadinstitute.org/BBBC038/)</li>
  </ol>
 
 ## Hyperparameters:
