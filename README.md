@@ -6,8 +6,9 @@ Network for Medical Image Segmentation](https://ieeexplore.ieee.org/stamp/stamp.
 Network for Medical Image Segmentation](https://arxiv.org/pdf/2006.04868.pdf)
 
 ## Architecture
+<p align="center">
 <img src="img/DoubleU-Net.png">
-
+</p>
 ## Datasets:
 The following datasets are used in this experiment:
 <ol>
@@ -42,17 +43,24 @@ The weight file for "the 2018 Data Science Bowl Challenge" and can be found here
 [https://drive.google.com/file/d/1J8yjNa_Oeuf26s2qRq6H0GEtp272oXY5/view?usp=sharing](https://drive.google.com/file/d/1J8yjNa_Oeuf26s2qRq6H0GEtp272oXY5/view?usp=sharing)
 
 ## Results
+<p align="center">
 The model is trained on CVC-ClinicDB and tested on the ETIS-Larib polyp dataset. <br/>
 <img src="img/gastro1.png">
+</p>
 
 The model is trained and tested on CVC-ClinicDB. <br/>
+<p align="center">
 <img src="img/gastro.png">
+</p>
 
 The model is trained and tested on Lesion Boundary segmentation challenge. <br/>
+<p align="center">
 <img src="img/skin.png">
-
+</p>
 The model is trained and tested 2018 Data Science Bowl Challenge. <br/>
+<p align="center">
 <img src="img/nuclie.png">
+</p>
 
 ## Citation
 Please cite our paper if you find the work useful: 
@@ -66,5 +74,5 @@ Please cite our paper if you find the work useful:
 </pre>
 
 ## Contact
-please contact debesh@simula.no for any further questions. 
+please contact debesh.jha@northwestern.edu for any further questions. 
 
